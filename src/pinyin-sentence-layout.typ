@@ -3,14 +3,15 @@
 // functions:
 // - zhuyin-atom
 // - zhuyin-paragraph
-// - zhuyin-sentence
+// - zhuyin-sentence (array of parts)
 // 
 // usage: the main export is zhuyin-paragraph.
 // it places all the zhuyin sentences which place the zhuyin atoms.
 
+#import "base-utils.typ": *
 
 
-#let zhuyin-atom(top-item, bottom-item, scale: 0.8, gap: 0.5) {
+#let zhuyin-atom(top-item, bottom-item, scale: 0.65, gap: 0.55) = {
     // scale (float): how much smaller the zhuyin (top) word should be 
     // gap (float)  : the distance between the top and bottom
 
@@ -26,7 +27,6 @@
     return box(table-item)             // box makes the item inline
 }
 
-#let a = zhuyin-atom("nihao", "你好")
 
 #let zhuyin-paragraph(sentences) = {
     for sentence in sentences {
@@ -42,15 +42,18 @@
   let spacer-word = h(0.2em)
   for part in parts {
     zhuyin-atom(part.pinyin, part.text)
-    if part.punctuation {
+    if "punctuation" in part {
         part.punctuation
     }
     if not is-last(part, parts) {
-        if part.punctuation {
+        if "punctuation" in part and part.punctuation {
             spacer-punctuation
         } else {
             spacer-word
         }
+        spacer-word
     }
   }
 }
+// #let a = zhuyin-atom("nihao", "你好")
+// #panic(a)

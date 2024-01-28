@@ -5,6 +5,10 @@
     store.push(item)
   }
 
-  let attrs = (columns: (auto, 1fr), column-gutter: 10pt, row-gutter: 10pt)
+  let attrs = (
+      columns: (auto, 1fr),
+      column-gutter: 10pt,
+      row-gutter: 10pt,
+  )
   grid(..attrs, ..store)
 }

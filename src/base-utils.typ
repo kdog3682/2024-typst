@@ -14,6 +14,7 @@
 #let is-content(x) = { type(x) == "content" }
 #let is-array(x) = { type(x) == "array" }
 #let is-dict(x) = { type(x) == "dictionary" }
+#let is-dictionary(x) = { type(x) == "dictionary" }
 #let is-object(x) = { type(x) == "dictionary" }
 #let is-integer(x) = { type(x) == "integer" }
 #let is-number(x) = { type(x) == "integer" }
@@ -138,11 +139,11 @@
     }
 
   let items = args.pos()
-  let t = type(items.at(0))
-  if is-dictionary(t) {
+  let first = items.first()
+  if is-dict(first) {
     return merge-dictionary(..items)
   }
-  if is-array(t) {
+  if is-array(first) {
     return merge-array(..items)
   }
 }
@@ -314,4 +315,65 @@
 #let mathdown(s, ..sink) = {
     let scope = sink.named()
     return eval(s, mode: "math", scope: scope)
+}
+
+
+#let flex(..sink) = {
+    // layout-util
+    let args = sink.pos()
+    let flat(arg) = {
+        if is-array(arg) {
+            arg.join()
+        } else {
+            arg
+        }
+    }
+    let flattened = args.map(flat)
+    let length = len(flattened)
+    let aligner(col, row) = {
+        if col == 0 {
+            left  + horizon
+        } else if col == length - 1 {
+            right + horizon
+        } else {
+            center + horizon
+        }
+    }
+    return table(columns: (1fr,) * flattened.len(), align: aligner, stroke: none, ..flattened)
+    let spacer = h(0.5fr)
+    let spacer = h(1fr)
+    return flattened.join(spacer)
+}
+
+
+#let create-icon-factory(dir, ext: "svg") = {
+    // factory-util
+    let create-icon-template(..sink) = {
+        let kwargs = sink.named()
+        let create-icon(key) = {
+            let url = dir + key + "." + ext
+            let size = kwargs.at("size", default: none)
+            if size != none {
+                let el = image(url)
+                return box(width: size * 1pt, height: size * 1pt, el)
+            }
+        }
+        return create-icon
+    }
+    return create-icon-template
+}
+
+
+#let title(s, style: "buc", before: 1, after: 5) = {
+    let text-attrs = (
+      weight: "bold",
+      size: 18pt,
+    )
+    align(text(..text-attrs, s), center + horizon)
+    v(before * 1pt)
+    line(length: 100%)
+    v(after * 1pt)
+}
+#let sm-text(s, size: 8) = {
+    return text(size: size * 1pt, resolve-content(s))
 }
