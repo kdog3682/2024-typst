@@ -10,18 +10,20 @@
 
     let kwargs = merge(base-kwargs, sink.named())
     // kwargs.insert("footer-title", "")
-    let mmgg-create-icon = create-icon-factory("../mmgg-assets/", ext: "png")
-    let attrs = (
-        size: 20,
-    )
-    let mmgg-inline-icon = mmgg-create-icon(..attrs)
-    let cat = mmgg-inline-icon("cat")
-    let dog = mmgg-inline-icon("puppy")
+    let mmgg-inline-icon = create-icon-factory("../mmgg-assets/")
+    let cat = mmgg-inline-icon("cat", size: 20)
+    let dog = mmgg-inline-icon("puppy", size: 20)
 
     set text(lang: "zh")
-    set page(paper: "us-letter", margin: 1in)
-
-    set page(footer-descent: 0pt)
+    let margin = (
+      top: 1in,
+      left: 1in,
+      right: 1in,
+      bottom: 1.25in,
+    )
+    set page(paper: "us-letter", margin: margin)
+    // set page(footer-descent: 0pt)
+    // we want the footer to descend a little bit
     set page(footer: {
       counter(page).display(number => {
         let num = sm-text(number)

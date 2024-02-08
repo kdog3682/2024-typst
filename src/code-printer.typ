@@ -1,4 +1,4 @@
-#set page(margin: 0.25in, paper: "us-letter", columns: 2)
+#set page(margin: 1in, paper: "us-letter", columns: 2)
 
 #set text(font: "IBM Plex Mono")
 

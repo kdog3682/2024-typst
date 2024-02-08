@@ -1,71 +1,96 @@
 #import "mmgg-template.typ": mmgg-template
 #import "base-utils.typ": *
-#import "pinyin-sentence-layout.typ": zhuyin-sentence
+#import "pinyin-sentence-layout.typ": zhuyin-sentence, zhuyin-atom
 
+#let zhuyin-sentence-2(o) = {
+  // jsondata via chatgpt
+  // 
+  let spacer-punctuation = h(0.1em)
+  let spacer-word = h(0.2em)
 
-#let speaker-factory(..sink) = {
-    let speakers = sink.pos()
-    let length = speakers.len()
-    let kwargs = sink.named()
-    let mode = kwargs.at("mode", default: "pair")
-    let count = state("count", 0)
-    
-    let get-speaker(i) = {
-        let index = calc.rem(i, length)
-        count.update((x) => x + 1)
-        return speakers.at(index)
-    }
-    return get-speaker
-}
-
-#let dialogue-layout(items) = {
-  // simple declarative sentences ...
-  // sentences that end with an exclamation mark
-  // sentences
-  let store = ()
-  // let get-speaker = speaker-factory("Dad", "Norah", mode: "pair")
-  for (index, item) in items.enumerate() {
-    // let speaker = get-speaker(index)
-    store.push(sm-text(bold(item.speaker), size: 10))
-    store.push(item.content)
-  }
-
-  let attrs = (
-      columns: (auto, 1fr),
-      column-gutter: 20pt,
-      row-gutter: 40pt,
-  )
-  grid(..attrs, ..store)
-}
-
-
-#let zhuyin-chunk(o) = {
-    for line in o.lines {
-        zhuyin-sentence(line.parts)
-        if line.break {
-            v(20pt)
-        } else {
-            v(10pt)
+  // if o.pinyin.len() != o.chinese.len() {
+    // panic(o)
+  // }
+  for (i, pinyin) in o.pinyin.enumerate() {
+    let chinese = o.chinese.at(i)
+    if empty(pinyin) {
+        chinese // it is punctuation
+        if i == 0 {
+            continue
+        }
+        else if not is-last(i, o.pinyin) {
+            spacer-punctuation
+        }
+    } else {
+        zhuyin-atom(pinyin, chinese)
+        if not is-last(i, o.pinyin) {
+            spacer-word
         }
     }
+  }
 }
 
-#let create(file) = {
-    let data = json(file)
-    let data = (
-        body: data,
-        title: "aaa",
-    )
+// lx (x) =>
+// inoreab <buffer>77 &&
+// inoreab <buffer>pe +=
+// look up the templates ... and the similarities ...
+// xp5pxp6 ab
+// evaluate the text as you write it ...
+// because seeing it makes a big difference
+#let zhuyin-wrapper(sentence, width: 75) = {
+    let a = block(sentence, width: (width) * 1%)
+    let b = block(sentence, width: (width + 20) * 1%)
+    style(styles => {
+        let measurement-a = measure(a, styles)
+        let measurement-b = measure(b, styles)
+        if measurement-a.height == measurement-b.height {
+            a
+        } else {
+            b
+        }
+    })
+}
+#let create(file, title: none) = {
+    if empty(title) {
+        title = "早晨散步"
+    }
+    let zhuyin-chunk(o) = {
+        zhuyin-wrapper(zhuyin-sentence-2(o), width: 65)
 
-    let chunks = data.body.map(zhuyin-chunk)
-    let main = dialogue-layout(chunks)
-    mmgg-template(main, title: data.title)
+        if has(o, "break") {
+            v(15pt)
+            let dotted = (
+              stroke: (
+                  thickness: 0.5pt,
+                  dash: "loosely-dotted",
+              )
+            )
+            align(center, line(length: 100%, ..dotted))
+        }
+    }
+    let lines = json(file)
+    let spacer = v(14pt)
+    let main = block(lines.map(zhuyin-chunk).join(spacer))
+
+    mmgg-template(main, title: title)
 }
 
-
-#let file = "/home/kdog3682/2023/clip.json"
+#let file = "/home/kdog3682/2024/clip2.json"
 #create(file)
 
 // 1706121027 /home/kdog3682/PYTHON/jieba_script.py
 // #import "pinyin-sentence-layout.typ": zhuyin-sentence
 // /home/kdog3682/2024-typst/src/mmgg-template.typ
+
+// process:
+// jieba processes the chinese lines (preserving breaks)
+// it is then passed over here
+// zhuyin sentence is the core worker
+
+
+
+
+// so it is correct to do it via chatgpt ...
+// it is just much more accurate?
+// but what about pagebreaks
+// what about pagebreaks ...

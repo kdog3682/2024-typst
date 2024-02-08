@@ -3,6 +3,15 @@
 )
 
 #let dash-stroke = (thickness: 0.5pt, dash: "dotted")
+#let finale = (
+  stroke: (thickness: 0.5pt, dash: "dotted"),
+  inset: 3pt,
+)
+#let strokes = (
+  soft: (dash: "loosely-dotted", thickness: 0.5pt, paint: blue)
+)
+
+
 
 
 

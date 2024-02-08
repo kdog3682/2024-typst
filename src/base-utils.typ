@@ -22,6 +22,9 @@
 #let is-function(x) = { type(x) == "function" }
 #let is-string(x) = { type(x) == "string" }
 
+#let empty(x) = {
+    return x == none
+}
 #let debugger(x) = {
     repr(type(x))
 }
@@ -56,6 +59,9 @@
 }
 
 #let bold(x) = {
+    if x == none {
+        return 
+    }
     let content = if is-content(x) {x} else { str(x) }
     return text(weight: "bold", content)
 }
@@ -284,17 +290,22 @@
 }
 
 
-#let markup(s) = {
-    return eval(s, mode: "markup")
+#let get-sink(sink, fallback) = {
+    let args = sink.pos()
+    return if args.len() == 0 { fallback } else if args.len() == 1 { args.first() } else { args }
 }
 
-#let fill(symbol, count) = {
-    let items = range(count).map((i) => symbol)
-    return items.join("  ")
-    let grid-attrs = (
-      
-    )
-    return grid(..grid-attrs, items)
+#let markup(..sink) = {
+    let s = sink.pos().first()
+
+    // panic(s, scope)
+    let scope = sink.named().at("scope", default: (:))
+    let b = eval(s, mode: "markup", scope: scope)
+    return b
+}
+
+#let fill(count, symbol) = {
+    return range(count).map((i) => symbol)
 }
 
 
@@ -339,28 +350,27 @@
             center + horizon
         }
     }
-    return table(columns: (1fr,) * flattened.len(), align: aligner, stroke: none, ..flattened)
     let spacer = h(0.5fr)
     let spacer = h(1fr)
+    return table(columns: (1fr,) * flattened.len(), align: aligner, stroke: none, ..flattened)
     return flattened.join(spacer)
 }
 
 
-#let create-icon-factory(dir, ext: "svg") = {
+#let create-icon-factory(dir, ext: "png") = {
     // factory-util
-    let create-icon-template(..sink) = {
+
+    let create-icon(key, ..sink) = {
         let kwargs = sink.named()
-        let create-icon(key) = {
-            let url = dir + key + "." + ext
-            let size = kwargs.at("size", default: none)
-            if size != none {
-                let el = image(url)
-                return box(width: size * 1pt, height: size * 1pt, el)
-            }
+        let url = dir + str(key) + "." + ext
+        let size = kwargs.at("size", default: 20)
+        let el = image(url)
+        if empty(el) {
+            panic(url)
         }
-        return create-icon
+        return box(width: size * 1pt, height: size * 1pt, el)
     }
-    return create-icon-template
+    return create-icon
 }
 
 
@@ -376,4 +386,58 @@
 }
 #let sm-text(s, size: 8) = {
     return text(size: size * 1pt, resolve-content(s))
+}
+
+#let md-text(s, size: 16) = {
+    return text(size: size * 1pt, resolve-content(s))
+}
+
+
+#let dialogue-layout(items) = {
+  // layout
+  let store = ()
+  for (index, item) in items.enumerate() {
+    // let speaker = get-speaker(index)
+    store.push(sm-text(bold(item.speaker), size: 10))
+    store.push(item.content)
+  }
+
+  let attrs = (
+      columns: (auto, 1fr),
+      column-gutter: 20pt,
+      row-gutter: 40pt,
+  )
+  grid(..attrs, ..store)
+}
+
+
+#let has(x, y) = {
+    return y in x
+}
+
+
+#let tail(file) = {
+    return file.split("/").last()
+}
+#let add-extension(file, ext) = {
+    if test(file, "\.\w+$") {
+        file
+    } else {
+        file + "." + ext
+    }
+}
+#let npath(dir, name) = {
+    return dir.replace(regex("/$"), "") + "/" + tail(name)
+}
+#let readjson(..sink) = {
+    let name = get-sink(sink, "clip.json")
+    let file = npath("/home/kdog3682/2024/", add-extension(name, "json"))
+    return json(file)
+}
+#let is-defined(x) = {
+    return x != none
+}
+
+#let spacer(n) = {
+    return v(n * 1pt)
 }

@@ -38,15 +38,18 @@
   // multiple sentences may be comprised here in a single line
   // the word sentence could perhaps be paragraph
   // no linebreaks are initiated her
-  let spacer-punctuation = h(0.2em)
+  let spacer-punctuation = h(0.1em)
   let spacer-word = h(0.2em)
+
   for part in parts {
     zhuyin-atom(part.pinyin, part.text)
-    if "punctuation" in part {
+
+    if has(part, "punctuation") and part.punctuation != part.text {
         part.punctuation
     }
+
     if not is-last(part, parts) {
-        if "punctuation" in part and part.punctuation {
+        if has(part, "punctuation") {
             spacer-punctuation
         } else {
             spacer-word
