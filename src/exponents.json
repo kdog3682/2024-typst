@@ -1,0 +1,59 @@
+[
+  {
+    "id": 1,
+    "rule": "Product of Powers",
+    "description": "To multiply two exponents with the same base, add their powers.",
+    "formula": "a^m * a^n = a^(m+n)",
+    "eli5": "When the bases are the same, just add their exponents.",
+    "example": "2^#blue(3) * 2^#blue(2) = 2^(3+2) = 2^#blue(5)"
+  },
+  {
+    "id": 2,
+    "rule": "Quotient of Powers",
+    "description": "To divide two exponents with the same base, subtract the power of the denominator from the power of the numerator.",
+    "formula": "a^m / a^n = a^(m-n)",
+    "eli5": "If you're dividing numbers with the same base, just subtract the bottom exponent from the top one.",
+    "example": "2^#blue(5) / 2^#blue(2) = 2^(5-2) = 2^#blue(3)"
+  },
+  {
+    "id": 3,
+    "rule": "Power of a Power",
+    "description": "To raise an exponent to another power, multiply the powers.",
+    "formula": "(a^m)^n = a^(m*n)",
+    "eli5": "If you have a power raised to another power, multiply the exponents.",
+    "example": "(2^3)^2 = 2^(3*2) = 2^6"
+  },
+  {
+    "id": 4,
+    "rule": "Power of a Product",
+    "description": "To raise a product to a power, raise each factor to the power.",
+    "formula": "(a*b)^n = a^n * b^n",
+    "eli5": "When you raise two numbers multiplied together to a power, you can raise each number to that power separately.",
+    "example": "(2*3)^2 = 2^2 * 3^2 = 4 * 9 = 36"
+  },
+  {
+    "id": 5,
+    "rule": "Power of a Quotient",
+    "description": "To raise a quotient to a power, raise both the numerator and the denominator to the power.",
+    "formula": "(a/b)^n = a^n / b^n",
+    "eli5": "When you raise a fraction to a power, you raise both the top and bottom numbers to that power.",
+    "example": "(2/3)^3 = 2^3 / 3^3 = 8 / 27"
+  },
+  {
+    "id": 6,
+    "rule": "Zero Exponent",
+    "description": "Any base raised to the power of zero is one.",
+    "formula": "a^0 = 1",
+    "eli5": "Anything raised to zero equals one.",
+    "example": "5^0 = 1"
+  },
+  {
+    "id": 7,
+    "rule": "Negative Exponent",
+    "description": "Any base raised to a negative exponent is equal to the reciprocal of the base raised to the absolute value of the exponent.",
+    "formula": "a^-n = 1/a^n",
+    "eli5": "A negative exponent means you take the reciprocal of the base and then raise it to the power of the exponent's positive value.",
+    "example": "2^-3 = 1/2^3 = 1/8"
+  }
+]
+

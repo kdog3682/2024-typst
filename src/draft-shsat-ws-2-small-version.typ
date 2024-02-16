@@ -94,6 +94,7 @@
     line(length: 100%)
   }
   rect(stroke: (dash: "dotted"), radius: 20pt, inset: 20pt, {
-      header, body
+      header
+      body
   })
 }

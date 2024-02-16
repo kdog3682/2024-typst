@@ -8,7 +8,8 @@
   inset: 3pt,
 )
 #let strokes = (
-  soft: (dash: "loosely-dotted", thickness: 0.5pt, paint: blue)
+  soft: (dash: "loosely-dotted", thickness: 0.5pt, paint: black),
+  hard: (dash: "loosely-dotted", thickness: 0.5pt, paint: black),
 )
 
 

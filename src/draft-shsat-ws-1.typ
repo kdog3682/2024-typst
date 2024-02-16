@@ -1,6 +1,7 @@
-#set page(margin: 0.65in)
+#import "page-templates.typ"
 
-#set text(size: 12pt)
+
+page-templates.test.with(fill: black)
 
 #let holder(..items) = {
   enum(..items)
