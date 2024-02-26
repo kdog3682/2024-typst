@@ -150,7 +150,7 @@
 }
 
 
-#let zhuyin-sentence-chunk(o) = {
+#let zhuyin-sentence-chunk(o, k:0.50, leading: 0.95em) = {
     if has(o, "linebreak") {
         let dotted = (
           stroke: (
@@ -162,10 +162,9 @@
     } else {
         // zhuyin-wrapper(zhuyin-sentence-3(o), width: 65)
         // with the atom
+        // creates the pinyin effect
 
-        set par(leading: 0.95em)
-        // show par: set block(spacing: 1.0em)
-        // par(ruler(o.text))
-        ruler(o.text, k: 0.50)
+        set par(leading: leading)
+        ruler(o.text, k: k)
     }
 }

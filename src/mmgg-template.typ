@@ -5,8 +5,6 @@
     circle(radius: 1.2pt, stroke: 0.3pt, fill: none)
 )
 
-#let smaller = it => text(size: 0.90em, it)
-#let smaller = it => text(size: 0.80em, it)
 
 #let exclamMark = box( inset: (left: 0.1em, right: 0.1em), text(size: 1.05em, font: "TeX Gyre Schola Math", [!]) )
 #let questionMark = box( inset: (left: 0.1em, right: 0.1em), text(size: 1.1em, font: "TeX Gyre Schola Math", [?]) )
@@ -60,6 +58,7 @@
     )
 
     let kwargs = merge(base-kwargs, sink.named())
+    // panic(kwargs)
     // kwargs.insert("footer-title", "")
     let mmgg-inline-icon = create-icon-factory("../mmgg-assets/")
     let cat = mmgg-inline-icon("cat", size: 20)
@@ -109,6 +108,10 @@
     show "！": exclamMark
     show "，": commaMark
     show "…":  ellipsesMark
+    // show "：": ":"
+    // saving the colon for later
+
+    let smaller = it => text(size: kwargs.englishNameSizing * 1em, it)
     show "Alice":  smaller
     show "Charlie":  smaller
     show "Emily":  smaller
@@ -124,6 +127,7 @@
     // not showing }
     // not showing %
 
+    // panic(kwargs)
     title(kwargs.title)
     doc
 }
