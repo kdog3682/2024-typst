@@ -367,7 +367,7 @@
 }
 
 
-#let flex(..sink) = {
+#let flex-1(..sink) = {
     // layout-util
     let args = sink.pos()
     let flat(arg) = {
@@ -412,14 +412,14 @@
 }
 
 
-#let title(s, style: "buc", before: 1, after: 5) = {
+#let title(s, style: "buc", before: -1, after: 5) = {
     let text-attrs = (
       weight: "bold",
       size: 18pt,
     )
-    align(text(..text-attrs, s), center + horizon)
-    v(before * 1pt)
-    line(length: 100%)
+    align(text(..text-attrs, s), center)
+    v(-10pt)
+    line(length: 100%, stroke: 0.3pt + black)
     v(after * 1pt)
 }
 #let sm-text(s, size: 8) = {
@@ -826,6 +826,25 @@
     panic("do not know how to resolve inches for", x)
 }
 
+#let assert-type(body, kind: none) = {
+    let ref = (
+        array: list,
+        dict: dictionary,
+        number: int,
+        string: str,
+        str: str,
+    )
+    let a = type(body)
+    let b = ref.at(kind)
+    if a == b {
+        return 
+    }
+
+    let args = (b, a)
+    let message = templater("require type: $1. instead got: $2.", args)
+    panic(message)
+}
+
 #let assert-array(body) = {
     assert(
         type(body) == array,
@@ -1015,3 +1034,19 @@
 // #let a=[hi guys #emoji-icon("smile") bye guys]
 // #let b=rect()
 // #table(columns: 2, a, b)
+#let assert-dict = assert-type.with(kind: "dict")
+
+#let is-exp(o) = {
+    return is-dict(o) and "base" in o and "t" in o
+}
+
+// #panic(type((1,))== )
+
+
+#let has-children(mc) = {
+    if is-content(mc) {
+        return "children" in mc.body.fields()
+    }
+    return false
+}
+
