@@ -1,8 +1,3 @@
-// #import "base-utils.typ": *
-// #import "/home/kdog3682/.cache/typst/packages/preview/cetz/0.2.0/src/lib/axes.typ"
-
-
-// #panic(scientific)
 #import "@preview/cetz:0.2.0"
 
 #let default-style = (
@@ -11,7 +6,7 @@
   auto-tick-factors: ( 4, 5, 6, 8, 10), // Tick factor to try
   auto-tick-count: 10, // Number of ticks the plot tries to place
   fill: none,
-  stroke: black + 0.75pt, // the bar
+  stroke: black + 0.75pt, // the container bars
   label: (
     offset: .2cm,       // Axis label offset
     anchor: auto,       // Axis label anchor
@@ -35,6 +30,7 @@
     stroke: (paint: gray.lighten(50%), thickness: .8pt),
   ),
 )
+
 #let margin = 0.5in
 #set page(margin: 0.5in, paper: "us-letter")
 
@@ -54,15 +50,7 @@
     set-style(
       axes: default-style
     )
-
-    set-style(
-    axes: (
-      tick: (
-        length: 6pt,
-        stroke: black,
-      )
-    ),
-    )
+    
   chart.columnchart(
     value-key: ("value", "value2"),
     label-key: "label",
@@ -85,6 +73,5 @@
       value2: 12,
     ))
   )
-
 })
 }

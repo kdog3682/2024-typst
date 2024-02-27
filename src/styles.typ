@@ -1,3 +1,7 @@
+#let mmgg-title = (
+    size: 18pt, weight: "bold"
+)
+
 #let chess-piece-size = (
    width: 10pt, height: 10pt
 )
@@ -12,7 +16,27 @@
   hard: (dash: "loosely-dotted", thickness: 0.5pt, paint: black),
 )
 
+let soft-mark = (
+    width: 0.2,
+    length: 0.3,
+    stroke: strokes.soft,
+    start: ">",
+    end: ">",
+    fill: black,
+)
 
+
+
+
+#let text-attrs = (
+  weight: "bold",
+  size: 18pt,
+  centered: true,
+)
+
+#let get(key) = {
+    
+}
 
 
 

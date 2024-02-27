@@ -18,6 +18,6 @@
     mmgg-template(main, title: title, englishNameSizing: options.englishNameSizing)
 }
 
-
 #let file = "/home/kdog3682/2023/clip.js"
 #main(file)
+// #main("/home/kdog3682/2023/clip.js")

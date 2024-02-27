@@ -1,9 +1,12 @@
-import "util"
+#import "base-utils.typ": *
+
+
+
 #let eq(s, spacing: 0) = {
     return box(baseline: -50%, equation(s))
 }
 
-#let block-math-parser(s) = {
+#let parser(s) = {
     let get-type(x) = {
         return if x == " " {
             none
@@ -24,13 +27,15 @@ import "util"
     return split-singles(remove-spaces(s)).map(runner)
 }
 #let block-arithmetic(s) = {
-    let parts = block-math-parser(s)
+    let parts = parser(s)
     let block-type = "circle"
+
     // you can have paddings and arrays
     // you can have circles
     // you can have triangles
     // id do the parsing in javascript
     // typst should be for layout
+
     for part in parts {
         if part.type == "integer" {
             block-stack(part.value)
@@ -49,15 +54,15 @@ import "util"
 }
 
 #let block-sum(..args) = {
-  let (integers, attrs) = ux.handle-args(args, base: "block-sum")
+  let (integers, attrs) = handle-args(args, base: "block-sum")
   let store = ()
   for (index, integer) in integers.enumerate() {
     let block = block-stack(integer)
     store.push(block)
 
-    if ux.is-last(index, integers) {
+    if is-last(index, integers) {
       let sum = block-answer(integers, "sum")
-      store.push(eq("=")
+      store.push(eq("="))
       store.push(sum)
     } else {
       store.push(eq("+"))
@@ -69,3 +74,5 @@ import "util"
 #block-math((1,1,3)).join(" ")
 
 
+#panic(parser("1 + 2"))
+// handle-args is a way of doing something ...

@@ -1,10 +1,7 @@
-#import "base-utils.typ": *
 #import "@preview/cetz:0.2.0"
-#import "render-functions.typ": render-functions
-#import "canvas-functions.typ": canvas-functions
 #import "@preview/splash:0.0.1": tailwind
-// generating a bar code ...
-// apple is doing something on a completely different level.
+#import "base-utils.typ": *
+#import "canvas-functions.typ": canvas-functions
 
 
 #let render-canvas(..sink) = {
@@ -19,7 +16,6 @@
       }
     })
 }
-#render-canvas(readjson())
 
 #let transform-kwargs(kwargs) = {
     
@@ -79,4 +75,6 @@
 
 // #render(readjson())
 // #box(width: 3em, height: 1em, fill: xcolor.dandelion)
-/home/kdog3682/2024-typst/.gitignore
+// /home/kdog3682/2024-typst/.gitignore
+#render-canvas(readjson())
+

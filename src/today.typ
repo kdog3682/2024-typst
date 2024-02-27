@@ -1,7 +1,3 @@
-// documents the last touched online typ stuff
-
-
-
 #let o = (0,0)
 #let p34 = (3, 4)
 #import "@preview/cetz:0.2.0"
@@ -27,7 +23,7 @@
         dash: "dotted"
       )
     )
-    line(a, b, ..attrs)
+    line(a, b, ..arrow-attrs)
   }
 
   rect(
@@ -50,18 +46,5 @@
   red-circle("holder.mid")
   arrow("rec.center", "holder.mid")
 
-  content(o, {
-    v(30pt)
-    block(above: 20pt, {
-      [
-        hi
-        hi\
-        hi\
-      ]
-    })
-  })
+  content(o, [hi])
 })
-
-
-
-

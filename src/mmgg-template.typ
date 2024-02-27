@@ -1,4 +1,6 @@
 #import "base-utils.typ": *
+#import "layout.typ": flex-1
+#import "typography.typ"
 
 #let periodMark = box(
     inset: (left: 1pt, right: 0.5pt),
@@ -60,9 +62,14 @@
     let kwargs = merge(base-kwargs, sink.named())
     // panic(kwargs)
     // kwargs.insert("footer-title", "")
-    let mmgg-inline-icon = create-icon-factory("../mmgg-assets/")
-    let cat = mmgg-inline-icon("cat", size: 20)
-    let dog = mmgg-inline-icon("puppy", size: 20)
+
+    let icon-attrs = (
+        ext: "png",
+        key: "mmgg",
+        size: 20,
+    )
+    let cat = create-icon("cat", ..icon-attrs)
+    let dog = create-icon("puppy", ..icon-attrs)
 
     let margin = (
       top: 1in,
@@ -74,8 +81,8 @@
     // we want the footer to descend a little bit
     set page(footer: {
       counter(page).display(number => {
-        let num = sm-text(number)
-        let ft = sm-text(kwargs.footer-title)
+        let num = typography.sm-text(number)
+        let ft = typography.sm-text(kwargs.footer-title)
         if number > 1 {
             if calc.odd(number) {
               flex-1(cat, [— #num —], dog)
@@ -126,8 +133,8 @@
     // not showing {
     // not showing }
     // not showing %
-
     // panic(kwargs)
-    title(kwargs.title)
+
+    typography.title(kwargs.title, class: "mmgg")
     doc
 }

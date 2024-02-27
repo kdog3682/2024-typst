@@ -12,18 +12,29 @@
 
 
 #let ruler(s, k: 0.65) = {
+  // there is another way to do this ruler
+  // that is to build the text up from atoms (ala fpdf.py style)
+  // but that becomes very imperative ... and i think it is wrong
+
   let value = text(s)
   let create(width) = {
+    // the 'value' is closured and that is okay.
     return block(value, width: width * 1pt)
   }
 
+  // this layout size refers to the current parent container
+  // sometimes it refers to the page
+  // most of the time, it will refer to a particular block
   style((styles) => layout(size => {
     let n = int(size.width.pt() * k)
+
     let b = create(n)
     let m = measure(b, styles)
     let height = m.height
+
     let temp = b
     let increment = 20
+
     for i in range(5) {
       n = n - increment
       temp = create(n)
