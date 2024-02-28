@@ -8,6 +8,7 @@
         englishNameSizing: 0.85,
         sentence: (
             k: 0.50,
+            // represents the length it is allowed to take
             leading: 0.95em,
         )
     )
@@ -18,6 +19,7 @@
     mmgg-template(main, title: title, englishNameSizing: options.englishNameSizing)
 }
 
-#let file = "/home/kdog3682/2023/clip.js"
+#let file = "/home/kdog3682/mmgg/morning_walk/v3.json"
 #main(file)
 // #main("/home/kdog3682/2023/clip.js")
+// well it works
